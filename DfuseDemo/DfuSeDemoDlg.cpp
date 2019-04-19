@@ -1775,43 +1775,43 @@ void CDfuSeDemoDlg::OnButtonupgrade()
 {
 	if(ReadProtected)
 	{
-		    if (AfxMessageBox("Your device is read protected.\nWould you remove the read protection?", MB_YESNO |MB_ICONQUESTION)==IDYES)
+		if (AfxMessageBox("Your device is read protected.\nWould you remove the read protection?", MB_YESNO |MB_ICONQUESTION)==IDYES)
+		{
+			HANDLE hdl;
+			if (STDFU_Open((LPSTR)(LPCSTR)m_CurrDFUName,&hdl)==STDFU_NOERROR)
 			{
-				HANDLE hdl;
-                if (STDFU_Open((LPSTR)(LPCSTR)m_CurrDFUName,&hdl)==STDFU_NOERROR)
+				if (STDFU_SelectCurrentConfiguration(&hdl, 0, 0,1)==STDFU_NOERROR)
 				{
-				   if (STDFU_SelectCurrentConfiguration(&hdl, 0, 0,1)==STDFU_NOERROR)
-				   {
-					   DFUSTATUS DFUStatus;
+					DFUSTATUS DFUStatus;
 
-					   STDFU_Getstatus(&hdl, &DFUStatus);
-					   while(DFUStatus.bState != STATE_DFU_IDLE)
-					   {
-							STDFU_Clrstatus(&hdl);
-							STDFU_Getstatus(&hdl, &DFUStatus);
-					   }
+					STDFU_Getstatus(&hdl, &DFUStatus);
+					while(DFUStatus.bState != STATE_DFU_IDLE)
+					{
+						STDFU_Clrstatus(&hdl);
+						STDFU_Getstatus(&hdl, &DFUStatus);
+					}
 						 
-					   LPBYTE m_pBuffer = (LPBYTE)malloc(0x10);
-					   memset(m_pBuffer, 0xFF, 0x10);
-					   m_pBuffer[0] = 0x92;
+					LPBYTE m_pBuffer = (LPBYTE)malloc(0x10);
+					memset(m_pBuffer, 0xFF, 0x10);
+					m_pBuffer[0] = 0x92;
 					 
 
-					   STDFU_Dnload(&hdl, m_pBuffer, 0x01, 0); 
+					STDFU_Dnload(&hdl, m_pBuffer, 0x01, 0); 
 
-					   STDFU_Getstatus(&hdl, &DFUStatus);
-					   /*while(DFUStatus.bState != STATE_DFU_IDLE)
-					   {
-							STDFU_Clrstatus(&hdl);
-							STDFU_Getstatus(&hdl, &DFUStatus);
-					   }*/
-				   }
-				   STDFU_Close(&hdl);
-				   ReadProtected = FALSE;
+					STDFU_Getstatus(&hdl, &DFUStatus);
+					/*while(DFUStatus.bState != STATE_DFU_IDLE)
+					{
+						STDFU_Clrstatus(&hdl);
+						STDFU_Getstatus(&hdl, &DFUStatus);
+					}*/
 				}
-
+				STDFU_Close(&hdl);
+				ReadProtected = FALSE;
 			}
-			else 
-				return;
+
+		}
+		else 
+			return;
 	}
 
 
