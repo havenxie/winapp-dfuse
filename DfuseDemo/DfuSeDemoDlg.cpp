@@ -50,7 +50,9 @@ static char THIS_FILE[] = __FILE__;
 
 static GUID	GUID_DFU = { 0x3fe809ab, 0xfb91, 0x4cb5, { 0xa6, 0x43, 0x69, 0x67, 0x0d, 0x52, 0x36, 0x6e } };
 //static GUID GUID_APP = { 0xcb979912, 0x5029, 0x420a, { 0xae, 0xb1, 0x34, 0xfc, 0x0a, 0x7d,0x57,0x26 } };
-static GUID GUID_APP = { 0x4D1E55B2, 0xF16F, 0x11CF, { 0x88, 0xCB, 0x00, 0x11, 0x11, 0x00, 0x00, 0x30} };//midifyied by havenxie
+static GUID GUID_APP1 = { 0x4D1E55B2, 0xF16F, 0x11CF, { 0x88, 0xCB, 0x00, 0x11, 0x11, 0x00, 0x00, 0x30} };//midifyied by havenxie
+static GUID GUID_APP = { 0x745a17a0, 0x74d3, 0x11d0, { 0xb6, 0xfe, 0x00, 0xa0, 0xc9, 0x0f, 0x57, 0xda} };
+
 /////////////////////////////////////////////////////////////////////////////
 // CDfuSeDemoDlg dialog
 
@@ -359,7 +361,7 @@ void CDfuSeDemoDlg::Refresh()
 				Prod += Product[j];
 		}
 		else 
-			Prod="(Unknown HID Device)";
+			Prod="(Other HID Device)";
 
 		String.Format("%s",Prod);
 		m_CtrlDFUDevices.AddString(String);
@@ -375,10 +377,10 @@ void CDfuSeDemoDlg::Refresh()
 
 		if (i==0)
 			Guid=GUID_DFU;
-		else if (i==1)
-			Guid=GUID_APP;
-		//else
-		//    HidD_GetHidGuid(&Guid);	
+		//else if (i==1)
+		//	Guid=GUID_APP;
+		else
+		    HidD_GetHidGuid(&Guid);	
 
 		info=SetupDiGetClassDevs(&Guid, NULL, NULL, DIGCF_PRESENT | DIGCF_INTERFACEDEVICE);
 		if (info!=INVALID_HANDLE_VALUE)  
@@ -2808,8 +2810,6 @@ BOOL CDfuSeDemoDlg::OnDeviceChange(UINT nEventType,DWORD_PTR dwData)
 	//Refresh();
 	return TRUE;
 }
-
-
 
 void CDfuSeDemoDlg::OnDblclkListtargets(NMHDR* pNMHDR, LRESULT* pResult) 
 {
