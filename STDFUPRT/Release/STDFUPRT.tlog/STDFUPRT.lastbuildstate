@@ -1,2 +1,2 @@
-#TargetFrameworkVersion=v4.0:PlatformToolSet=v141_xp:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=7.0
-Release|Win32|F:\IAP-DFU\2.WINAPP-IAP(DFU)\|
+#TargetFrameworkVersion=v4.0:PlatformToolSet=v142:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=10.0
+Release|Win32|D:\My Workstation\Embedded\USB-Applications\WINAPP-DfuseDemo V3.0.6\Source1\|
